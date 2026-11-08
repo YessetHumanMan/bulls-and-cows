@@ -128,6 +128,11 @@ npm run build
 ввода, uppercase hex, повторы, история, победа, время, новая игра и сохранение
 рекордов после reload. Адаптивность проверена на 320, 768 и 1920 px.
 
+## Скриншоты
+
+- [Экран настроек](docs/screenshots/settings.png)
+- [Завершённая игра и рекорды](docs/screenshots/game.png)
+
 ## Деплой и сдача
 
 **Игра:** https://yessethumanman-bulls-and-cows.netlify.app
