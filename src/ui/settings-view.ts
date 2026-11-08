@@ -3,6 +3,7 @@ import type { GameSettings, NumeralBase } from '../types/game';
 
 export const createSettingsView = (onStart: (settings: GameSettings) => void): HTMLFormElement => {
   const form = document.createElement('form');
+  form.className = 'settings-form';
   const fieldset = document.createElement('fieldset');
   const legend = document.createElement('legend');
   legend.textContent = 'Round settings';

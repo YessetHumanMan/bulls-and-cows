@@ -14,10 +14,12 @@ export const createGameView = (
   const isValidDigit = createDigitValidator(base);
 
   const section = document.createElement('section');
+  section.className = 'game-view';
   const heading = document.createElement('h2');
   heading.textContent = 'Your guess';
 
   const form = document.createElement('form');
+  form.className = 'guess-form';
   const fieldset = document.createElement('fieldset');
   const legend = document.createElement('legend');
   legend.textContent = `Enter ${length} unique digits in base ${base}`;
@@ -43,9 +45,11 @@ export const createGameView = (
   const historyHeading = document.createElement('h2');
   historyHeading.textContent = 'Attempts (0)';
   const history = document.createElement('ol');
+  history.className = 'attempts-list';
 
   const newGameButton = document.createElement('button');
   newGameButton.type = 'button';
+  newGameButton.className = 'secondary-button';
   newGameButton.textContent = 'New game';
   newGameButton.addEventListener('click', onNewGame);
 

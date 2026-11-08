@@ -2,6 +2,7 @@ import type { GameRecord } from '../types/record';
 
 export const createRecordsView = (records: readonly GameRecord[]): HTMLElement => {
   const section = document.createElement('section');
+  section.className = 'records-view';
   const heading = document.createElement('h2');
   heading.textContent = 'Top 10 records';
   section.append(heading);
@@ -47,6 +48,12 @@ export const createRecordsView = (records: readonly GameRecord[]): HTMLElement =
   });
 
   table.append(caption, head, body);
-  section.append(table);
+  const tableContainer = document.createElement('div');
+  tableContainer.className = 'table-scroll';
+  tableContainer.tabIndex = 0;
+  tableContainer.setAttribute('role', 'region');
+  tableContainer.setAttribute('aria-label', 'Records table');
+  tableContainer.append(table);
+  section.append(tableContainer);
   return section;
 };
