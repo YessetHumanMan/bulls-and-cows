@@ -4,7 +4,11 @@ import { isValidGuess } from '../core/validate-guess';
 import type { GameState } from '../types/game';
 import { createHistoryEntry } from './history-view';
 
-export const createGameView = (initialState: GameState, onNewGame: () => void): HTMLElement => {
+export const createGameView = (
+  initialState: GameState,
+  onNewGame: () => void,
+  onWin: (state: GameState) => void,
+): HTMLElement => {
   let state = initialState;
   const { length, base } = state.settings;
   const isValidDigit = createDigitValidator(base);
@@ -83,6 +87,7 @@ export const createGameView = (initialState: GameState, onNewGame: () => void): 
       const seconds = ((state.finishedAt - state.startedAt) / 1000).toFixed(1);
       message.textContent = `You won! Secret: ${state.secret}. Attempts: ${state.history.length}. Time: ${seconds} seconds.`;
       newGameButton.focus();
+      onWin(state);
     } else {
       input.focus();
     }
