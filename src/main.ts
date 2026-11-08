@@ -14,15 +14,26 @@ description.textContent =
 const status = document.createElement('p');
 status.setAttribute('role', 'status');
 
+const settingsContainer = document.createElement('div');
 const gameContainer = document.createElement('div');
-const settingsView = createSettingsView((settings) => {
-  const secret = generateSecret(settings.length, settings.base);
-  const state = createGame(settings, secret, Date.now());
 
-  status.textContent = `Round started: ${settings.length} unique digits in base ${settings.base}.`;
-  gameContainer.replaceChildren(createGameView(state));
-  gameContainer.querySelector('input')?.focus();
-});
+const showSettings = (): void => {
+  gameContainer.replaceChildren();
+  status.textContent = '';
 
-main.append(heading, description, settingsView, status, gameContainer);
+  const settingsView = createSettingsView((settings) => {
+    const secret = generateSecret(settings.length, settings.base);
+    const state = createGame(settings, secret, Date.now());
+
+    status.textContent = `Round started: ${settings.length} unique digits in base ${settings.base}.`;
+    gameContainer.replaceChildren(createGameView(state, showSettings));
+    gameContainer.querySelector('input')?.focus();
+  });
+
+  settingsContainer.replaceChildren(settingsView);
+  settingsContainer.querySelector('select')?.focus();
+};
+
+main.append(heading, description, settingsContainer, status, gameContainer);
 document.body.append(main);
+showSettings();

@@ -4,7 +4,7 @@ import { isValidGuess } from '../core/validate-guess';
 import type { GameState } from '../types/game';
 import { createHistoryEntry } from './history-view';
 
-export const createGameView = (initialState: GameState): HTMLElement => {
+export const createGameView = (initialState: GameState, onNewGame: () => void): HTMLElement => {
   let state = initialState;
   const { length, base } = state.settings;
   const isValidDigit = createDigitValidator(base);
@@ -40,6 +40,11 @@ export const createGameView = (initialState: GameState): HTMLElement => {
   historyHeading.textContent = 'Attempts (0)';
   const history = document.createElement('ol');
 
+  const newGameButton = document.createElement('button');
+  newGameButton.type = 'button';
+  newGameButton.textContent = 'New game';
+  newGameButton.addEventListener('click', onNewGame);
+
   input.addEventListener('beforeinput', (event) => {
     if (event.isComposing || !event.data) return;
     if (![...event.data].every(isValidDigit)) event.preventDefault();
@@ -74,11 +79,17 @@ export const createGameView = (initialState: GameState): HTMLElement => {
     message.textContent = `Bulls: ${attempt.result.bulls}, cows: ${attempt.result.cows}`;
 
     fieldset.disabled = state.status === 'won';
-    if (!fieldset.disabled) input.focus();
+    if (state.finishedAt !== null) {
+      const seconds = ((state.finishedAt - state.startedAt) / 1000).toFixed(1);
+      message.textContent = `You won! Secret: ${state.secret}. Attempts: ${state.history.length}. Time: ${seconds} seconds.`;
+      newGameButton.focus();
+    } else {
+      input.focus();
+    }
   });
 
   fieldset.append(legend, label, button);
   form.append(fieldset, message);
-  section.append(heading, form, historyHeading, history);
+  section.append(heading, form, newGameButton, historyHeading, history);
   return section;
 };
